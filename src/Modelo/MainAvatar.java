@@ -150,7 +150,7 @@ public class MainAvatar {
     }
 
     private void asegurarElArchivo() {
-        try (PrintWriter out = new PrintWriter(new FileWriter(ARCHIVO))) {
+        try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(ARCHIVO)))) {
             for (Personaje personaje : personajes) {
                 String tipoPersonaje = "Personaje";
                 if (personaje instanceof Avatar) {
@@ -171,6 +171,7 @@ public class MainAvatar {
                             + personaje.genero + "," + personaje.edad + "," + personaje.estaVivo + ","
                             + personaje.nivelDeDominio + "," + personaje.energia);
             }
+            out.flush();
             System.out.println("El registro de personajes se ha guardado en el archivo");
 
         } catch (IOException e) {
@@ -185,7 +186,7 @@ public class MainAvatar {
         }
 
         File file = new File(ARCHIVO);
-        if (file.exists() || file.length() == 0) {
+        if (!file.exists() || file.length() == 0) {
             System.out.println("Primero crea un personaje y guárdalo.");
             return;
         }
@@ -196,6 +197,9 @@ public class MainAvatar {
             String linea;
 
             while ((linea = br.readLine()) != null) {
+                if (linea.trim().isEmpty()) {
+                    continue;
+                }
                 try {
                     String[] datos = linea.split(",");
                     String personaje = datos[0];
