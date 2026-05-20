@@ -75,6 +75,7 @@ public class MainAvatar {
             System.out.println("[2] Maestro de la Tierra");
             System.out.println("[3] Maestro del Fuego");
             System.out.println("[4] Maestro del Aire");
+            System.out.print("Elige una de las opciones: ");
             maestroSeleccionado = validarEntero();
         }
 
@@ -89,7 +90,7 @@ public class MainAvatar {
         System.out.print("¿Está vivo? (true/false) ");
         boolean estaVivo = validarBooleano();
         System.out.print("¿Cuál es su nivel de dominio? (0-100): ");
-        int nivelDeDominio = validarEntero();
+        int nivelDeDominio = validarRangoDominio(0, 100);
         System.out.print("¿Cuánta energía tiene? ");
         int energia = validarEntero();
 
@@ -274,6 +275,24 @@ public class MainAvatar {
         }
     }
 
+    private int validarRangoDominio(int rango1, int rango2) {
+        while (true) {
+            try {
+                int valor = scanner.nextInt();
+                scanner.nextLine();
+
+                if (valor >= rango1 && valor <= rango2) {
+                    return valor;
+                } else {
+                    System.out.print("El valor debe estar entre " + rango1 + " y " + rango2 + ": ");
+                }
+            } catch (InputMismatchException e) {
+                System.out.print("Introduce un número entero dentro del rango válido. ");
+                scanner.nextLine();
+            }
+        }
+    }
+
     private int validarEntero() {
         while (true) {
             try {
@@ -281,7 +300,7 @@ public class MainAvatar {
                 scanner.nextLine();
                 return valor;
             } catch (InputMismatchException e) {
-                System.out.print("Introduce un número entero: ");
+                System.out.print("Escribe un número entero: ");
                 scanner.nextLine();
             }
         }
