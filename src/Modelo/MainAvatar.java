@@ -40,8 +40,13 @@ public class MainAvatar {
                     crearUnPersonaje();
                     break;
                 case 2:
-                    asegurarElArchivo();
-                    menuActivo = false;
+                    boolean guardadoHecho = asegurarElArchivo();
+
+                    if (guardadoHecho) {
+                        System.out.println("El registro de los personajes se ha guardado en el archivo.");
+                        System.out.println("Saliendo del programa.");
+                        menuActivo = false;
+                    }
                     break;
                 case 3:
                     cargarLosDatos();
@@ -151,13 +156,13 @@ public class MainAvatar {
         }
     }
 
-    private void asegurarElArchivo() {
+    private boolean asegurarElArchivo() {
         File file = new File(ARCHIVO);
 
         if (file.exists() && file.length() > 0 && !archivoCargado) {
             System.out.println("El archivo contiene personajes guardados de sesiones anteriores.");
             System.out.println("Para no borrar tu progreso, carga los datos antes de guardar.");
-            mostrarMenu();
+            return false;
         }
 
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(ARCHIVO)))) {
@@ -187,10 +192,11 @@ public class MainAvatar {
                             + personaje.nivelDeDominio + "," + personaje.energia);
             }
             out.flush();
-            System.out.println("El registro de personajes se ha guardado en el archivo");
+            return true;
 
         } catch (IOException e) {
             System.out.println("Ocurrió un error al guardar el archivo " + e.getMessage());
+            return false;
         }
     }
 
