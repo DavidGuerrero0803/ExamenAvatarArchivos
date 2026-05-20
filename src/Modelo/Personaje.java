@@ -30,7 +30,7 @@ public class Personaje {
     }
 
     public void presentarPersonaje() {
-        System.out.println("¡Hola hola! Mi nombre es " + nombre + ", tengo " + edad + " años y soy de " + nacion);
+        System.out.println("¡Hola hola! Mi nombre es " + nombre + ", tengo " + edad + " años y soy de " + nacion + ".");
     }
 
     protected void verificarEnergiaSufiente() throws EnergiaInsuficienteException {

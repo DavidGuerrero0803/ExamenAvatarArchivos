@@ -28,7 +28,7 @@ public class MainAvatar {
     public void mostrarMenu() {
         boolean menuActivo = true;
         while (menuActivo) {
-            System.out.println("AVATAR | LA LEYENDA DEL ARCHIVO");
+            System.out.println("\nAVATAR | LA LEYENDA DEL ARCHIVO");
             System.out.println("-> 1 Crear Personaje");
             System.out.println("-> 2 Guardar y Salir");
             System.out.println("-> 3 Cargar Datos");
@@ -44,7 +44,7 @@ public class MainAvatar {
                     boolean guardadoHecho = asegurarElArchivo();
 
                     if (guardadoHecho) {
-                        System.out.println("El registro con los personajes se ha guardado en el archivo.");
+                        System.out.println("\nEl registro con los personajes se ha guardado en el archivo.");
                         System.out.println("Saliendo del programa.");
                         menuActivo = false;
                     }
@@ -59,7 +59,7 @@ public class MainAvatar {
     }
 
     private void crearUnPersonaje() {
-        System.out.println("CREADOR DE PERSONAJE");
+        System.out.println("\nCREADOR DE PERSONAJE");
         System.out.println("¿Qué quieres que sea tu personaje?");
         System.out.println("1. El Avatar");
         System.out.println("2. Maestro de un elemento");
@@ -70,7 +70,7 @@ public class MainAvatar {
 
         int maestroSeleccionado = 0;
         if (personajeSeleccionado == 2) {
-            System.out.println("¿QUÉ TIPO DE MAESTRO SERÁ?");
+            System.out.println("\n¿QUÉ TIPO DE MAESTRO SERÁ?");
             System.out.println("[1] Maestro del Agua");
             System.out.println("[2] Maestro de la Tierra");
             System.out.println("[3] Maestro del Fuego");
@@ -79,7 +79,7 @@ public class MainAvatar {
             maestroSeleccionado = validarEntero();
         }
 
-        System.out.print("¿Cómo se llama? ");
+        System.out.print("\n¿Cómo se llama? ");
         String nombre = scanner.nextLine();
         System.out.print("Nación a la que pertenece: ");
         String nacion = scanner.nextLine();
@@ -95,7 +95,7 @@ public class MainAvatar {
         int energia = validarEntero();
 
         if (energia < 0) {
-            System.out.println("ADVERTENCIA: Guardar un personaje con energía negativa generará un mensaje de error al cargar el archivo.");
+            System.out.println("\nADVERTENCIA: Guardar un personaje con energía negativa generará un mensaje de error al cargar el archivo.");
         }
 
         Personaje personajeCreado = null;
@@ -123,12 +123,12 @@ public class MainAvatar {
         }
 
         personajes.add(personajeCreado);
-        System.out.println("Se ha creado tu personaje.");
+        System.out.println("\nSe ha creado tu personaje.");
         personajeCreado.presentarPersonaje();
 
         boolean regresarAlMenu = false;
         while (!regresarAlMenu) {
-            System.out.println("¿QUÉ QUIERES HACER CON EL PERSONAJE " + personajeCreado.nombre.toUpperCase() + "?");
+            System.out.println("\n¿QUÉ QUIERES HACER CON EL PERSONAJE " + personajeCreado.nombre.toUpperCase() + "?");
             System.out.println("[1] Intentar atacar");
             System.out.println("[2] Volver al menú");
             System.out.print("Ingresa la opción: ");
@@ -160,7 +160,7 @@ public class MainAvatar {
         File file = new File(ARCHIVO);
 
         if (file.exists() && file.length() > 0 && !archivoCargado) {
-            System.out.println("El archivo contiene personajes guardados de sesiones anteriores.");
+            System.out.println("\nEl archivo contiene personajes guardados de sesiones anteriores.");
             System.out.println("Para no borrar tu progreso, carga los datos antes de guardar.");
             return false;
         }
@@ -202,13 +202,13 @@ public class MainAvatar {
 
     private void cargarLosDatos() {
         if (archivoCargado) {
-            System.out.println("Acabas de cargar los archivos recientemente");
+            System.out.println("\nAcabas de cargar los archivos recientemente.");
             return;
         }
 
         File file = new File(ARCHIVO);
         if (!file.exists() || file.length() == 0) {
-            System.out.println("Primero crea un personaje y guárdalo.");
+            System.out.println("\nPrimero crea un personaje y guárdalo.");
             return;
         }
 
@@ -235,7 +235,7 @@ public class MainAvatar {
 
                     if (energia < 0 ) {
                         lineasSaltadas.add(linea);
-                        throw new EnergiaNegativaException("[Exception Error] Registro detectado: " + nombre + " tiene energía negativa.");
+                        throw new EnergiaNegativaException("\n[Exception Error] Registro detectado: " + nombre + " tiene energía negativa.");
                     }
 
                     switch (personaje) {
@@ -266,9 +266,9 @@ public class MainAvatar {
             archivoCargado = true;
 
             if (excepciones == 0) {
-                System.out.println("Los registros de los personajes se han cargado.");
+                System.out.println("\nLos registros de los personajes se han cargado.");
             } else {
-                System.out.println("Carga finalizada. Se detectaron " + excepciones + " registros con energía negativa.");
+                System.out.println("\nCarga finalizada. Se detectaron " + excepciones + " registros con energía negativa.");
             }
         } catch (IOException e) {
             System.out.println("Ha habido un error al cargar el archivo " + e.getMessage());
