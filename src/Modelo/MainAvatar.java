@@ -6,12 +6,14 @@ import java.util.Scanner;
 
 public class MainAvatar {
     private ArrayList<Personaje> personajes;
+    private ArrayList<String> lineasSaltadas;
     private Scanner scanner;
     private boolean archivoCargado;
     private final String ARCHIVO;
 
     public MainAvatar() {
         this.personajes = new ArrayList<>();
+        this.lineasSaltadas = new ArrayList<>();
         this.scanner = new Scanner(System.in);
         this.archivoCargado = false;
         this.ARCHIVO = "src/registro_personajes.txt";
@@ -159,6 +161,11 @@ public class MainAvatar {
         }
 
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(ARCHIVO)))) {
+
+            for (String lineaSaltable : lineasSaltadas) {
+                out.println(lineaSaltable);
+            }
+
             for (Personaje personaje : personajes) {
                 String tipoPersonaje = "Personaje";
                 if (personaje instanceof Avatar) {
@@ -200,6 +207,7 @@ public class MainAvatar {
         }
 
         personajes.clear();
+        lineasSaltadas.clear();
         int excepciones = 0;
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String linea;
@@ -220,6 +228,7 @@ public class MainAvatar {
                     int energia = Integer.parseInt(datos[7]);
 
                     if (energia < 0 ) {
+                        lineasSaltadas.add(linea);
                         throw new EnergiaNegativaException("[Exception Error] Registro detectado: " + nombre + " tiene energía negativa.");
                     }
 
@@ -252,6 +261,8 @@ public class MainAvatar {
 
             if (excepciones == 0) {
                 System.out.println("Los registros de los personajes se han cargado.");
+            } else {
+                System.out.println("Carga finalizada. Se detectaron " + excepciones + " registros con energía negativa.");
             }
         } catch (IOException e) {
             System.out.println("Ha habido un error al cargar el archivo " + e.getMessage());
