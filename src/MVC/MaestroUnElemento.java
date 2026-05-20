@@ -1,4 +1,4 @@
-package Modelo;
+package MVC;
 
 public abstract class MaestroUnElemento extends Personaje {
 

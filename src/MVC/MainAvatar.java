@@ -1,4 +1,4 @@
-package Modelo;
+package MVC;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -100,7 +100,7 @@ public class MainAvatar {
 
         Personaje personajeCreado = null;
         if(personajeSeleccionado == 1) {
-            personajeCreado = new Avatar(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia);
+            personajeCreado = new CrearAvatar(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia);
         } else if (personajeSeleccionado == 2) {
             switch (maestroSeleccionado) {
                 case 1:
@@ -136,8 +136,8 @@ public class MainAvatar {
 
             if (opcPersonaje == 1) {
                 try {
-                    if (personajeCreado instanceof Avatar) {
-                        ((Avatar) personajeCreado).ataqueAvatar();
+                    if (personajeCreado instanceof CrearAvatar) {
+                        ((CrearAvatar) personajeCreado).ataqueAvatar();
                     } else if (personajeCreado instanceof MaestroUnElemento) {
                         ((MaestroUnElemento) personajeCreado).atacar();
                     } else if (personajeCreado instanceof  Guerrero) {
@@ -173,7 +173,7 @@ public class MainAvatar {
 
             for (Personaje personaje : personajes) {
                 String tipoPersonaje = "Personaje";
-                if (personaje instanceof Avatar) {
+                if (personaje instanceof CrearAvatar) {
                     tipoPersonaje = "Avatar";
                 } else if (personaje instanceof MaestroDelAgua) {
                     tipoPersonaje = "Maestro_Agua";
@@ -240,7 +240,7 @@ public class MainAvatar {
 
                     switch (personaje) {
                         case "Avatar":
-                            personajes.add(new Avatar(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia));
+                            personajes.add(new CrearAvatar(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia));
                             break;
                         case "Maestro_Agua":
                             personajes.add(new MaestroDelAgua(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia));

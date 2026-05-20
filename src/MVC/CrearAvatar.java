@@ -1,8 +1,8 @@
-package Modelo;
+package MVC;
 
-public class Avatar extends Personaje implements IMaestroAgua, IMaestroTierra, IMaestroFuego, IMaestroAire {
+public class CrearAvatar extends Personaje implements IMaestroAgua, IMaestroTierra, IMaestroFuego, IMaestroAire {
 
-    public Avatar(String nombre, String nacion, String genero, int edad, boolean estaVivo, int nivelDeDominio, int energia) {
+    public CrearAvatar(String nombre, String nacion, String genero, int edad, boolean estaVivo, int nivelDeDominio, int energia) {
         super(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia);
     }
 

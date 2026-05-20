@@ -1,4 +1,4 @@
-package Modelo;
+package MVC;
 
 public class MaestroDelAire extends MaestroUnElemento implements IMaestroAire {
 

@@ -1,4 +1,4 @@
-package Modelo;
+package MVC;
 
 public class EnergiaInsuficienteException extends Exception {
     public EnergiaInsuficienteException(String mensaje_error) {
