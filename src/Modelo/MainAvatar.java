@@ -114,6 +114,36 @@ public class MainAvatar {
 
         personajes.add(personajeCreado);
         System.out.println("Se ha registrado tu personaje.");
+
+        boolean regresarAlMenu = false;
+        while (!regresarAlMenu) {
+            System.out.println("¿Qué quieres hacer con el personaje " + personajeCreado + "?");
+            System.out.println("[1] Intentar atacar");
+            System.out.println("[2] Volver al menú");
+            System.out.println("Ingresa la opción: ");
+            int opcPersonaje = scanner.nextInt();
+            scanner.nextLine();
+
+            if (opcPersonaje == 1) {
+                try {
+                    if (personajeCreado instanceof Avatar) {
+                        ((Avatar) personajeCreado).ataqueAvatar();
+                    } else if (personajeCreado instanceof MaestroUnElemento) {
+                        ((MaestroUnElemento) personajeCreado).atacar();
+                    } else if (personajeCreado instanceof  Guerrero) {
+                        ((Guerrero) personajeCreado).realizarAtaque();
+                    } else {
+                        System.out.println(personajeCreado.nombre + " parece no tener técnicas de combate.");
+                    }
+                } catch (EnergiaInsuficienteException e) {
+                    System.out.println(e.getMessage());
+                }
+            } else if (opcPersonaje == 2) {
+                regresarAlMenu = true;
+            } else {
+                System.out.println("Intenta de nuevo ingresando una opción válida.");
+            }
+        }
     }
 
     public static void main(String[] args) {
