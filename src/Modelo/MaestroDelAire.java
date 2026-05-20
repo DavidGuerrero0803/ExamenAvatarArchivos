@@ -13,7 +13,7 @@ public class MaestroDelAire extends MaestroUnElemento implements IMaestroAire {
 
     @Override
     public void atacar() throws EnergiaInsuficienteException {
-        verificarEnergiaSufiente();
+        poseeEnergiaSufiente();
         System.out.println(nombre + " hizo una ráfaga de viento una ráfaga de viento y huyó");
         energia -= 10;
     }

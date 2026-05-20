@@ -13,8 +13,7 @@ public class MaestroDelFuego extends MaestroUnElemento implements IMaestroFuego 
 
     @Override
     public void atacar() throws EnergiaInsuficienteException {
-        verificarEnergiaSufiente();
-        // idea si descarto o no: que controlarFuego() salga como mensaje de preparación antes de atacar.
+        poseeEnergiaSufiente();
         System.out.println(nombre + " realizó un ataque combinado de fuego y electricidad");
         energia -= 10;
     }
