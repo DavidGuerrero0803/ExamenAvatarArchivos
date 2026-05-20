@@ -1,5 +1,8 @@
 package Modelo;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -35,7 +38,7 @@ public class MainAvatar {
                     crearUnPersonaje();
                     break;
                 case 2:
-
+                    asegurarElArchivo();
                     menuActivo = false;
                     break;
                 case 3:
@@ -143,6 +146,35 @@ public class MainAvatar {
             } else {
                 System.out.println("Intenta de nuevo ingresando una opción válida.");
             }
+        }
+    }
+
+    private void asegurarElArchivo() {
+        try (PrintWriter out = new PrintWriter(new FileWriter("src/registro_personajes.txt"))) {
+            for (Personaje personaje : personajes) {
+                String tipoPersonaje = "Personaje";
+                if (personaje instanceof Avatar) {
+                    tipoPersonaje = "Avatar";
+                } else if (personaje instanceof MaestroDelAgua) {
+                    tipoPersonaje = "Maestro_Agua";
+                } else if (personaje instanceof MaestroDeTierra) {
+                    tipoPersonaje = "Maestro_Tierra";
+                } else if (personaje instanceof MaestroDelFuego) {
+                    tipoPersonaje = "Maestro_Fuego";
+                } else if (personaje instanceof  MaestroDelAire) {
+                    tipoPersonaje = "Maestro_Aire";
+                } else if (personaje instanceof Guerrero) {
+                    tipoPersonaje = "Guerrero";
+                }
+
+                out.println(tipoPersonaje + "," + personaje.nombre + "," + personaje.nacion + ","
+                            + personaje.genero + "," + personaje.edad + "," + personaje.estaVivo + ","
+                            + personaje.nivelDeDominio + "," + personaje.energia);
+            }
+            System.out.println("El registro de personajes se ha guardado en el archivo");
+
+        } catch (IOException e) {
+            System.out.println("Ocurrió un error al guardar el archivo " + e.getMessage());
         }
     }
 
