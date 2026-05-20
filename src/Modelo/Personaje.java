@@ -29,4 +29,14 @@ public class Personaje {
         energia = 10;
     }
 
+    public void presentarPersonaje() {
+        System.out.println("¡Hola hola! Mi nombre es" + nombre + ", tengo " + edad + " años.");
+    }
+
+    protected void verificarEnergiaSufiente() throws EnergiaInsuficienteException {
+        if (this.energia < 10) {
+            throw new EnergiaInsuficienteException("¡El maestro necesita descansar y meditar!");
+        }
+    }
+
 }
