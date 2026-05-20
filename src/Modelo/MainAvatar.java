@@ -57,6 +57,17 @@ public class MainAvatar {
         int personajeSeleccionado = scanner.nextInt();
         scanner.nextLine();
 
+        int maestroSeleccionado = 0;
+        if (personajeSeleccionado == 2) {
+            System.out.println("Escogiste que sea maestro de un elemento, ¿Pero qué maestro será?");
+            System.out.println("[1] Maestr@ del Agua");
+            System.out.println("[2] Maestr@ de la Tierra");
+            System.out.println("[3] Maestr@ del Fuego");
+            System.out.println("[4] Maestr@ del Aire");
+            maestroSeleccionado = scanner.nextInt();
+            scanner.nextLine();
+        }
+
         System.out.print("¿Cómo se llama? ");
         String nombre = scanner.nextLine();
         System.out.print("Nación a la que pertenece: ");
@@ -81,13 +92,6 @@ public class MainAvatar {
         if(personajeSeleccionado == 1) {
             personajeCreado = new Avatar(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia);
         } else if (personajeSeleccionado == 2) {
-            System.out.println("Escogiste que sea maestro de un elemento, ¿Pero qué maestro será?");
-            System.out.println("[1] Maestr@ del Agua");
-            System.out.println("[2] Maestr@ de la Tierra");
-            System.out.println("[3] Maestr@ del Fuego");
-            System.out.println("[4] Maestr@ del Aire");
-            int maestroSeleccionado = scanner.nextInt();
-            scanner.nextLine();
             switch (maestroSeleccionado) {
                 case 1:
                     personajeCreado = new MaestroDelAgua(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia);
