@@ -1,8 +1,6 @@
 package Modelo;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,11 +8,13 @@ public class MainAvatar {
     private ArrayList<Personaje> personajes;
     private Scanner scanner;
     private boolean archivoCargado;
+    private final String ARCHIVO;
 
     public MainAvatar() {
         this.personajes = new ArrayList<>();
         this.scanner = new Scanner(System.in);
         this.archivoCargado = false;
+        this.ARCHIVO = "src/registro_personajes.txt";
     }
 
     public void ejecutarMenu() {
@@ -42,7 +42,7 @@ public class MainAvatar {
                     menuActivo = false;
                     break;
                 case 3:
-
+                    cargarLosDatos();
                     break;
                 default:
                     System.out.println("Debes elegir entre una de las tres opciones.");
@@ -120,7 +120,7 @@ public class MainAvatar {
 
         boolean regresarAlMenu = false;
         while (!regresarAlMenu) {
-            System.out.println("¿Qué quieres hacer con el personaje " + personajeCreado + "?");
+            System.out.println("¿Qué quieres hacer con el personaje " + personajeCreado.nombre + "?");
             System.out.println("[1] Intentar atacar");
             System.out.println("[2] Volver al menú");
             System.out.println("Ingresa la opción: ");
@@ -150,7 +150,7 @@ public class MainAvatar {
     }
 
     private void asegurarElArchivo() {
-        try (PrintWriter out = new PrintWriter(new FileWriter("src/registro_personajes.txt"))) {
+        try (PrintWriter out = new PrintWriter(new FileWriter(ARCHIVO))) {
             for (Personaje personaje : personajes) {
                 String tipoPersonaje = "Personaje";
                 if (personaje instanceof Avatar) {
@@ -175,6 +175,74 @@ public class MainAvatar {
 
         } catch (IOException e) {
             System.out.println("Ocurrió un error al guardar el archivo " + e.getMessage());
+        }
+    }
+
+    private void cargarLosDatos() {
+        if (archivoCargado) {
+            System.out.println("Acabas de cargar los archivos recientemente");
+            return;
+        }
+
+        File file = new File(ARCHIVO);
+        if (file.exists() || file.length() == 0) {
+            System.out.println("Primero crea un personaje y guárdalo.");
+            return;
+        }
+
+        personajes.clear();
+        int excepciones = 0;
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String linea;
+
+            while ((linea = br.readLine()) != null) {
+                try {
+                    String[] datos = linea.split(",");
+                    String personaje = datos[0];
+                    String nombre = datos[1];
+                    String nacion = datos[2];
+                    String genero = datos[3];
+                    int edad = Integer.parseInt(datos[4]);
+                    boolean estaVivo = Boolean.parseBoolean(datos[5]);
+                    int nivelDeDominio = Integer.parseInt(datos[6]);
+                    int energia = Integer.parseInt(datos[7]);
+
+                    if (energia < 0 ) {
+                        throw new EnergiaNegativaException("[Exception Error] Registro detectado: " + nombre + " tiene energía negativa.");
+                    }
+
+                    switch (personaje) {
+                        case "Avatar":
+                            personajes.add(new Avatar(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia));
+                            break;
+                        case "Maestro_Agua":
+                            personajes.add(new MaestroDelAgua(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia));
+                            break;
+                        case "Maestro_Tierra":
+                            personajes.add(new MaestroDeTierra(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia));
+                            break;
+                        case "Maestro_Fuego":
+                            personajes.add(new MaestroDelFuego(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia));
+                            break;
+                        case "Maestro_Aire":
+                            personajes.add(new MaestroDelAire(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia));
+                            break;
+                        case "Guerrero":
+                            personajes.add(new Guerrero(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia));
+                    }
+                } catch (EnergiaNegativaException e) {
+                    System.out.println(e.getMessage());
+                    excepciones++;
+                }
+            }
+
+            archivoCargado = true;
+
+            if (excepciones == 0) {
+                System.out.println("Los registros de los personajes se han cargado.");
+            }
+        } catch (IOException e) {
+            System.out.println("Ha habido un error al cargar el archivo " + e.getMessage());
         }
     }
 
