@@ -116,7 +116,7 @@ public class MainAvatar {
         }
 
         personajes.add(personajeCreado);
-        System.out.println("Se ha registrado tu personaje.");
+        System.out.println("Se ha creado tu personaje.");
 
         boolean regresarAlMenu = false;
         while (!regresarAlMenu) {
@@ -150,6 +150,14 @@ public class MainAvatar {
     }
 
     private void asegurarElArchivo() {
+        File file = new File(ARCHIVO);
+
+        if (file.exists() && file.length() > 0 && !archivoCargado) {
+            System.out.println("El archivo contiene personajes guardados de sesiones anteriores.");
+            System.out.println("Para no borrar tu progreso, carga los datos antes de guardar.");
+            mostrarMenu();
+        }
+
         try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(ARCHIVO)))) {
             for (Personaje personaje : personajes) {
                 String tipoPersonaje = "Personaje";
