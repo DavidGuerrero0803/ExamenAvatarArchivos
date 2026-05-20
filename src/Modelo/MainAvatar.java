@@ -32,7 +32,7 @@ public class MainAvatar {
 
             switch (opcionElegida) {
                 case 1:
-
+                    crearUnPersonaje();
                     break;
                 case 2:
 
@@ -57,19 +57,19 @@ public class MainAvatar {
         int personajeSeleccionado = scanner.nextInt();
         scanner.nextLine();
 
-        System.out.print("¿Cuál es su nombre?: ");
+        System.out.print("¿Cómo se llama? ");
         String nombre = scanner.nextLine();
-        System.out.print("¿A qué nación pertenece?: ");
+        System.out.print("Nación a la que pertenece: ");
         String nacion = scanner.nextLine();
-        System.out.print("¿Qué género es?: ");
+        System.out.print("¿Es hombre o mujer? ");
         String genero = scanner.nextLine();
-        System.out.print("¿Qué edad tiene?: ");
+        System.out.print("Edad de tu personaje: ");
         int edad = scanner.nextInt();
-        System.out.print("¿Está vivo?: ");
+        System.out.print("¿Está vivo? ");
         boolean estaVivo = scanner.nextBoolean();
         System.out.print("¿Cuál es su nivel de dominio? (1-100): ");
         int nivelDeDominio = scanner.nextInt();
-        System.out.print("¿Cuánta energía tiene?: ");
+        System.out.print("¿Cuánta energía tiene? ");
         int energia = scanner.nextInt();
         scanner.nextLine();
 
@@ -78,6 +78,38 @@ public class MainAvatar {
         }
 
         Personaje personajeCreado = null;
+        if(personajeSeleccionado == 1) {
+            personajeCreado = new Avatar(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia);
+        } else if (personajeSeleccionado == 2) {
+            System.out.println("Escogiste que sea maestro de un elemento, ¿Pero qué maestro será?");
+            System.out.println("[1] Maestr@ del Agua");
+            System.out.println("[2] Maestr@ de la Tierra");
+            System.out.println("[3] Maestr@ del Fuego");
+            System.out.println("[4] Maestr@ del Aire");
+            int maestroSeleccionado = scanner.nextInt();
+            scanner.nextLine();
+            switch (maestroSeleccionado) {
+                case 1:
+                    personajeCreado = new MaestroDelAgua(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia);
+                    break;
+                case 2:
+                    personajeCreado = new MaestroDeTierra(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia);
+                    break;
+                case 3:
+                    personajeCreado = new MaestroDelFuego(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia);
+                    break;
+                case 4:
+                    personajeCreado = new MaestroDelAire(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia);
+                    break;
+                default:
+                    System.out.println("Debes elegir entre una de las cuatro opciones.");
+            }
+        } else {
+            personajeCreado = new Guerrero(nombre, nacion, genero, edad, estaVivo, nivelDeDominio, energia);
+        }
+
+        personajes.add(personajeCreado);
+        System.out.println("Se ha registrado tu personaje.");
     }
 
     public static void main(String[] args) {
