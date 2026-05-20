@@ -2,6 +2,7 @@ package Modelo;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MainAvatar {
@@ -31,9 +32,9 @@ public class MainAvatar {
             System.out.println("-> 1 Crear Personaje");
             System.out.println("-> 2 Guardar y Salir");
             System.out.println("-> 3 Cargar Datos");
-            System.out.println("Escoge una opción: ");
-            int opcionElegida = scanner.nextInt();
-            scanner.nextLine();
+            System.out.print("¿Qué opción quieres hacer? ");
+
+            int opcionElegida = validarEntero();
 
             switch (opcionElegida) {
                 case 1:
@@ -43,7 +44,7 @@ public class MainAvatar {
                     boolean guardadoHecho = asegurarElArchivo();
 
                     if (guardadoHecho) {
-                        System.out.println("El registro de los personajes se ha guardado en el archivo.");
+                        System.out.println("El registro con los personajes se ha guardado en el archivo.");
                         System.out.println("Saliendo del programa.");
                         menuActivo = false;
                     }
@@ -63,19 +64,18 @@ public class MainAvatar {
         System.out.println("1. El Avatar");
         System.out.println("2. Maestro de un elemento");
         System.out.println("3. Un Guerrero");
+        System.out.print("Elige una de las opciones: ");
 
-        int personajeSeleccionado = scanner.nextInt();
-        scanner.nextLine();
+        int personajeSeleccionado = validarEntero();
 
         int maestroSeleccionado = 0;
         if (personajeSeleccionado == 2) {
-            System.out.println("Escogiste que sea maestro de un elemento, ¿Pero qué maestro será?");
-            System.out.println("[1] Maestr@ del Agua");
-            System.out.println("[2] Maestr@ de la Tierra");
-            System.out.println("[3] Maestr@ del Fuego");
-            System.out.println("[4] Maestr@ del Aire");
-            maestroSeleccionado = scanner.nextInt();
-            scanner.nextLine();
+            System.out.println("¿QUÉ TIPO DE MAESTRO SERÁ?");
+            System.out.println("[1] Maestro del Agua");
+            System.out.println("[2] Maestro de la Tierra");
+            System.out.println("[3] Maestro del Fuego");
+            System.out.println("[4] Maestro del Aire");
+            maestroSeleccionado = validarEntero();
         }
 
         System.out.print("¿Cómo se llama? ");
@@ -85,14 +85,13 @@ public class MainAvatar {
         System.out.print("¿Es hombre o mujer? ");
         String genero = scanner.nextLine();
         System.out.print("Edad de tu personaje: ");
-        int edad = scanner.nextInt();
-        System.out.print("¿Está vivo? ");
-        boolean estaVivo = scanner.nextBoolean();
-        System.out.print("¿Cuál es su nivel de dominio? (1-100): ");
-        int nivelDeDominio = scanner.nextInt();
+        int edad = validarEntero();
+        System.out.print("¿Está vivo? (true/false) ");
+        boolean estaVivo = validarBooleano();
+        System.out.print("¿Cuál es su nivel de dominio? (0-100): ");
+        int nivelDeDominio = validarEntero();
         System.out.print("¿Cuánta energía tiene? ");
-        int energia = scanner.nextInt();
-        scanner.nextLine();
+        int energia = validarEntero();
 
         if (energia < 0) {
             System.out.println("ADVERTENCIA: Guardar un personaje con energía negativa generará un mensaje de error al cargar el archivo.");
@@ -124,15 +123,15 @@ public class MainAvatar {
 
         personajes.add(personajeCreado);
         System.out.println("Se ha creado tu personaje.");
+        personajeCreado.presentarPersonaje();
 
         boolean regresarAlMenu = false;
         while (!regresarAlMenu) {
-            System.out.println("¿Qué quieres hacer con el personaje " + personajeCreado.nombre + "?");
+            System.out.println("¿QUÉ QUIERES HACER CON EL PERSONAJE " + personajeCreado.nombre.toUpperCase() + "?");
             System.out.println("[1] Intentar atacar");
             System.out.println("[2] Volver al menú");
-            System.out.println("Ingresa la opción: ");
-            int opcPersonaje = scanner.nextInt();
-            scanner.nextLine();
+            System.out.print("Ingresa la opción: ");
+            int opcPersonaje = validarEntero();
 
             if (opcPersonaje == 1) {
                 try {
@@ -272,6 +271,32 @@ public class MainAvatar {
             }
         } catch (IOException e) {
             System.out.println("Ha habido un error al cargar el archivo " + e.getMessage());
+        }
+    }
+
+    private int validarEntero() {
+        while (true) {
+            try {
+                int valor = scanner.nextInt();
+                scanner.nextLine();
+                return valor;
+            } catch (InputMismatchException e) {
+                System.out.print("Introduce un número entero: ");
+                scanner.nextLine();
+            }
+        }
+    }
+
+    private boolean validarBooleano() {
+        while (true) {
+            try {
+                boolean valor = scanner.nextBoolean();
+                scanner.nextLine();
+                return valor;
+            } catch (InputMismatchException e) {
+                System.out.print("Debes escribir true o false: ");
+                scanner.nextLine();
+            }
         }
     }
 
