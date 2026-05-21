@@ -35,7 +35,7 @@ public class Personaje {
 
     protected void poseeEnergiaSufiente() throws EnergiaInsuficienteException {
         if (this.energia < 10) {
-            throw new EnergiaInsuficienteException("¡El maestro necesita descansar y meditar!");
+            throw new EnergiaInsuficienteException("\n[Exception Error] ¡El maestro necesita descansar y meditar!");
         }
     }
 

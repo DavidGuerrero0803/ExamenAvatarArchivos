@@ -33,6 +33,7 @@ public class MainAvatar {
             System.out.println("-> 2 Guardar y Salir");
             System.out.println("-> 3 Cargar Datos");
             System.out.println("-> 4 Mostrar Registros");
+            System.out.println("-> 5 Hacer Ataque");
             System.out.print("¿Qué opción quieres hacer? ");
 
             int opcionElegida = validarEntero();
@@ -55,6 +56,9 @@ public class MainAvatar {
                     break;
                 case 4:
                     mostrarAPersonajes();
+                    break;
+                case 5:
+                    AtacarConPersonaje();
                     break;
                 default:
                     System.out.println("Debes elegir entre una de las tres opciones.");
@@ -94,7 +98,7 @@ public class MainAvatar {
         System.out.print("¿Está vivo? (true/false) ");
         boolean estaVivo = validarBooleano();
         System.out.print("¿Cuál es su nivel de dominio? (0-100): ");
-        int nivelDeDominio = validarRangoDominio(0, 100);
+        int nivelDeDominio = validarRango(0, 100);
         System.out.print("¿Cuánta energía tiene? ");
         int energia = validarEntero();
 
@@ -133,8 +137,8 @@ public class MainAvatar {
         boolean regresarAlMenu = false;
         while (!regresarAlMenu) {
             System.out.println("\n¿QUÉ QUIERES HACER CON EL PERSONAJE " + personajeCreado.nombre.toUpperCase() + "?");
-            System.out.println("[1] Intentar atacar");
-            System.out.println("[2] Volver al menú");
+            System.out.println("1. Intentar atacar");
+            System.out.println("2. Volver al menú");
             System.out.print("Ingresa la opción: ");
             int opcPersonaje = validarEntero();
 
@@ -147,7 +151,7 @@ public class MainAvatar {
                     } else if (personajeCreado instanceof  Guerrero) {
                         ((Guerrero) personajeCreado).realizarAtaque();
                     } else {
-                        System.out.println(personajeCreado.nombre + " parece no tener técnicas de combate.");
+                        System.out.println(personajeCreado.nombre + " no tiene técnicas de combate.");
                     }
                 } catch (EnergiaInsuficienteException e) {
                     System.out.println(e.getMessage());
@@ -239,7 +243,7 @@ public class MainAvatar {
 
                     if (energia < 0 ) {
                         lineasSaltadas.add(linea);
-                        throw new EnergiaNegativaException("\n[Exception Error] Registro detectado: " + nombre + " tiene energía negativa.");
+                        throw new EnergiaNegativaException("\n[Exception Error] " + nombre + " tiene energía negativa.");
                     }
 
                     switch (personaje) {
@@ -298,7 +302,42 @@ public class MainAvatar {
         }
     }
 
-    private int validarRangoDominio(int rango1, int rango2) {
+    private void AtacarConPersonaje() {
+        if (!archivoCargado) {
+            System.out.println("\nCarga los datos antes para poder acceder a los registros.");
+            return;
+        }
+
+        if (personajes.isEmpty()) {
+            System.out.println("\nNo hay personajes para atacar.");
+            return;
+        }
+
+        System.out.println("\nESCOGE A TU PERSONAJE PARA REALIZAR UN ATAQUE");
+        for (int i = 0; i < personajes.size(); i++) {
+            System.out.println("[" + (i + 1) + "] " + personajes.get(i).nombre);
+        }
+        System.out.print("Opción: ");
+
+        int rangoPersonajes = validarRango(1, personajes.size()) - 1;
+        Personaje personaje = personajes.get(rangoPersonajes);
+
+        try {
+            if (personaje instanceof CrearAvatar) {
+                ((CrearAvatar) personaje).ataqueAvatar();
+            } else if (personaje instanceof MaestroUnElemento) {
+                ((MaestroUnElemento) personaje).atacar();
+            } else if (personaje instanceof Guerrero) {
+                ((Guerrero) personaje).realizarAtaque();
+            } else {
+                System.out.println(personaje.nombre + " no tiene técnicas de combate.");
+            }
+        } catch (EnergiaInsuficienteException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private int validarRango(int rango1, int rango2) {
         while (true) {
             try {
                 int valor = scanner.nextInt();
@@ -310,7 +349,7 @@ public class MainAvatar {
                     System.out.print("El valor debe estar entre " + rango1 + " y " + rango2 + ": ");
                 }
             } catch (InputMismatchException e) {
-                System.out.print("Introduce un número entero dentro del rango válido. ");
+                System.out.print("Introduce un número dentro del rango válido: ");
                 scanner.nextLine();
             }
         }

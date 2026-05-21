@@ -28,7 +28,7 @@ public class CrearAvatar extends Personaje implements IMaestroAgua, IMaestroTier
 
     public void ataqueAvatar() throws EnergiaInsuficienteException {
         poseeEnergiaSufiente();
-        System.out.println(nombre + " ha hecho un ataque con la fuerza de los 4 elementos");
+        System.out.println(nombre + " atacó con los 4 elementos naturales.");
         energia -= 10;
     }
 }
