@@ -34,6 +34,7 @@ public class MainAvatar {
             System.out.println("-> 3 Cargar Datos");
             System.out.println("-> 4 Mostrar Registros");
             System.out.println("-> 5 Hacer Ataque");
+            System.out.println("-> 6 Modificar Personaje");
             System.out.print("¿Qué opción quieres hacer? ");
 
             int opcionElegida = validarEntero();
@@ -59,6 +60,9 @@ public class MainAvatar {
                     break;
                 case 5:
                     AtacarConPersonaje();
+                    break;
+                case 6:
+                    modificarLosAtributos();
                     break;
                 default:
                     System.out.println("Debes elegir entre una de las tres opciones.");
@@ -243,7 +247,7 @@ public class MainAvatar {
 
                     if (energia < 0 ) {
                         lineasSaltadas.add(linea);
-                        throw new EnergiaNegativaException("\n[Exception Error] " + nombre + " tiene energía negativa.");
+                        throw new EnergiaNegativaException("\n[Exception Error] " + nombre + " no puede tener energía negativa.");
                     }
 
                     switch (personaje) {
@@ -334,6 +338,76 @@ public class MainAvatar {
             }
         } catch (EnergiaInsuficienteException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    private void modificarLosAtributos() {
+        if (!archivoCargado) {
+            System.out.println("\nCarga los datos antes para poder acceder a los registros.");
+            return;
+        }
+
+        if (personajes.isEmpty()) {
+            System.out.println("No hay personajes para modificar.");
+            return;
+        }
+
+        System.out.print("\nNombre del personaje a modificar: ");
+        String nombreBuscado = scanner.nextLine();
+
+        Personaje personajeEncontrado = null;
+        for (Personaje personaje : personajes) {
+            if (personaje.nombre.equalsIgnoreCase(nombreBuscado)) {
+                personajeEncontrado = personaje;
+                break;
+            }
+        }
+
+        if (personajeEncontrado == null) {
+            System.out.println("No existe personaje con el nombre: " + nombreBuscado);
+            return;
+        }
+
+        System.out.println("¿Qué atributo de " + personajeEncontrado.nombre + " vas a modificar?");
+        System.out.println("1. Nombre");
+        System.out.println("2. Nación");
+        System.out.println("3. Edad");
+        System.out.println("4. Energía");
+        System.out.print("Selecciona una opción: ");
+        int atributoSeleccionado = validarRango(1, 4);
+
+        try {
+            switch (atributoSeleccionado) {
+                case 1:
+                    System.out.print("\nNuevo nombre: ");
+                    personajeEncontrado.nombre = scanner.nextLine();
+                    System.out.println("Nombre actualizado.");
+                    break;
+                case 2:
+                    System.out.print("\nNueva nación: ");
+                    personajeEncontrado.nacion = scanner.nextLine();
+                    System.out.println("Nación actualizada.");
+                    break;
+                case 3:
+                    System.out.print("\nNueva edad: ");
+                    personajeEncontrado.edad = validarEntero();
+                    System.out.println("Edad actualizada.");
+                    break;
+                case 4:
+                    System.out.print("\nValor nuevo de energía: ");
+                    int energiaNueva = validarEntero();
+
+                    if (energiaNueva < 0) {
+                        throw new EnergiaNegativaException("\n[Exception Error] " + personajeEncontrado.nombre + " no puede tener energía negativa.");
+                    }
+
+                    personajeEncontrado.energia = energiaNueva;
+                    System.out.println("Energía actualizada.");
+                    break;
+            }
+        } catch (EnergiaNegativaException e) {
+            System.out.println(e.getMessage());
+            System.out.println("Los atributos se han mantenido intactos.");
         }
     }
 
