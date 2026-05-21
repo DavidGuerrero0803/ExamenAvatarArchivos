@@ -32,6 +32,7 @@ public class MainAvatar {
             System.out.println("-> 1 Crear Personaje");
             System.out.println("-> 2 Guardar y Salir");
             System.out.println("-> 3 Cargar Datos");
+            System.out.println("-> 4 Mostrar Registros");
             System.out.print("¿Qué opción quieres hacer? ");
 
             int opcionElegida = validarEntero();
@@ -51,6 +52,9 @@ public class MainAvatar {
                     break;
                 case 3:
                     cargarLosDatos();
+                    break;
+                case 4:
+                    mostrarAPersonajes();
                     break;
                 default:
                     System.out.println("Debes elegir entre una de las tres opciones.");
@@ -272,6 +276,25 @@ public class MainAvatar {
             }
         } catch (IOException e) {
             System.out.println("Ha habido un error al cargar el archivo " + e.getMessage());
+        }
+    }
+
+    private void mostrarAPersonajes() {
+        if (!archivoCargado) {
+            System.out.println("\nCarga los datos antes para poder acceder a los registros.");
+            return;
+        }
+
+        if (personajes.isEmpty()) {
+            System.out.println("\nNo hay personajes creados.");
+            return;
+        }
+
+        System.out.println("\nREGISTROS ACTUALES DE LOS PERSONAJES CREADOS");
+        for (Personaje personaje : personajes) {
+            System.out.println("Nombre: " + personaje.nombre + ", Nación: " + personaje.nacion
+                    + ", Género: " + personaje.genero + ", Edad: " + personaje.edad
+                    + ", Nivel de Dominio " + personaje.nivelDeDominio + ", Energía " + personaje.energia);
         }
     }
 
