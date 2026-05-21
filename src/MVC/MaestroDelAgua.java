@@ -13,7 +13,7 @@ public class MaestroDelAgua extends MaestroUnElemento implements IMaestroAgua {
 
     @Override
     public void atacar() throws EnergiaInsuficienteException {
-        verificarEnergiaSufiente();
+        poseeEnergiaSufiente();
         System.out.println(nombre + " lanzó un poderoso proyectíl de agua");
         energia -= 10;
     }

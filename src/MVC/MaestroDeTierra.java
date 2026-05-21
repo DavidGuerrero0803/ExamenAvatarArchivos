@@ -13,7 +13,7 @@ public class MaestroDeTierra extends MaestroUnElemento implements IMaestroTierra
 
     @Override
     public void atacar() throws EnergiaInsuficienteException {
-        verificarEnergiaSufiente();
+        poseeEnergiaSufiente();
         System.out.println(nombre + " atacó con una gran piedra reforzada");
         energia -= 10;
     }

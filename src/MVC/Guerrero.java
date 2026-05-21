@@ -7,7 +7,7 @@ public class Guerrero extends Personaje {
     }
 
     public void realizarAtaque() throws EnergiaInsuficienteException {
-        verificarEnergiaSufiente();
+        poseeEnergiaSufiente();
         System.out.println(nombre + " realizó un ataque con su arma (es muy efectivo)");
         energia -= 10;
     }

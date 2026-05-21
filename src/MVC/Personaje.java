@@ -33,7 +33,7 @@ public class Personaje {
         System.out.println("¡Hola hola! Mi nombre es " + nombre + ", tengo " + edad + " años y soy de " + nacion + ".");
     }
 
-    protected void verificarEnergiaSufiente() throws EnergiaInsuficienteException {
+    protected void poseeEnergiaSufiente() throws EnergiaInsuficienteException {
         if (this.energia < 10) {
             throw new EnergiaInsuficienteException("¡El maestro necesita descansar y meditar!");
         }
